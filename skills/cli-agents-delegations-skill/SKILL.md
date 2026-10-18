@@ -1,15 +1,17 @@
 ---
-name: agent-delegation
+name: cli-agents-delegations-skill
 description: >-
   Delegate tasks to separate headless CLI agent processes with isolated
   workspaces, self-contained briefs, resumable sessions, captured logs and
-  verified integration. Use when CLI-based delegation or parallel CLI workers
-  are requested or already authorized. Provider-neutral; not a workflow for
-  built-in subagents or GUI automation.
+  verified integration. Use only when the user explicitly requests headless
+  CLI agents or explicitly invokes this skill for a delegation task.
+  Generic requests for parallel work, reviews or autonomy do not activate it.
+  Provider-neutral; not a workflow for built-in subagents or GUI automation.
+disable-model-invocation: true
 license: MIT
 metadata:
   author: xronocode
-  version: "0.1.0"
+  version: "0.2.0"
 ---
 
 # Headless CLI Agent Delegation
@@ -20,6 +22,18 @@ The CLI provider, model, operating system and project framework are configurable
 the headless-process mechanism is the point of this skill. Do not silently
 replace it with built-in subagents or an interactive terminal/GUI session.
 This skill does not grant permissions or override restrictions on delegation.
+
+## Require an explicit request
+
+Start headless CLI agents only when the user explicitly asks for that mechanism
+or invokes this skill with a delegation task. A request to parallelize, review
+from several angles, use agents, or work autonomously does not by itself select
+headless CLI execution. Continue with the host's normal workflow in that case.
+
+Mentioning, installing, renaming, editing or reviewing this skill does not
+authorize a worker run. Authorization covers the requested delegation task and
+its necessary follow-ups; it does not become a default for unrelated tasks.
+Once authorized, complete that task without asking again for routine steps.
 
 ## Decide what to delegate
 

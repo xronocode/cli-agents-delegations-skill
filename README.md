@@ -1,36 +1,37 @@
-# Headless CLI Agent Delegation
+# cli-agents-delegations-skill
 
 Run separate CLI agents in non-interactive mode, keep working while they run,
 and verify what they produced before integrating it. Provider-neutral instructions
 for **headless processes**, isolated worktrees, resumable sessions and captured evidence.
+Delegation is opt-in: use it only when the user explicitly requests headless CLI agents.
 
 ## Install
 
 ```sh
-npx skills add xronocode/agent-delegation
+npx skills add xronocode/cli-agents-delegations-skill
 ```
 
 Install globally for a selected supported agent, for example:
 
 ```sh
-npx skills add xronocode/agent-delegation --skill agent-delegation --global --agent codex --yes
+npx skills add xronocode/cli-agents-delegations-skill --skill cli-agents-delegations-skill --global --agent codex --yes
 ```
 
 List the available skill without installing:
 
 ```sh
-npx skills add xronocode/agent-delegation --list
+npx skills add xronocode/cli-agents-delegations-skill --list
 ```
 
-This repository uses the [Agent Skills format](https://agentskills.io/specification)
-and the open [skills CLI](https://github.com/vercel-labs/skills). It needs no npm
-package publication: the installer discovers `skills/agent-delegation/SKILL.md`
+This repository uses the [Agent Skills layout](https://agentskills.io/specification)
+with host-specific invocation settings and the open [skills CLI](https://github.com/vercel-labs/skills).
+It needs no npm package publication: the installer discovers `skills/cli-agents-delegations-skill/SKILL.md`
 and copies the skill's supporting references.
 
 ## Use
 
 ```text
-Use agent-delegation to run these independent tasks through headless CLI agents.
+$cli-agents-delegations-skill Run these independent tasks through headless CLI agents.
 Give each process an isolated workspace and a self-contained brief.
 Keep the process handles and session IDs, verify the results, then integrate.
 ```
@@ -45,7 +46,23 @@ cover Codex CLI, Claude Code CLI and ZCode CLI; other CLIs can use the same proc
 contract. Built-in subagents and GUI automation are outside this skill's scope.
 The host must provide and authorize the selected CLI; installation does not add
 an engine, authentication, model access or permissions.
-Automatic discovery and explicit invocation depend on the host's settings.
+
+### Explicit invocation only
+
+- **Codex:** `$cli-agents-delegations-skill` followed by the task.
+  `agents/openai.yaml` sets `policy.allow_implicit_invocation: false`.
+- **Claude Code:** `/cli-agents-delegations-skill` followed by the task.
+  `SKILL.md` sets `disable-model-invocation: true`.
+- **Other hosts:** request headless CLI agents explicitly. The core instructions
+  require that request; automatic-loading controls depend on the host's support.
+
+Generic requests such as "parallelize this", "review from four angles" or
+"work autonomously" do not authorize headless CLI delegation. Mentioning or
+maintaining the skill itself does not authorize a worker run. Authorization
+stays with the requested task and its necessary follow-ups.
+
+The invocation settings follow the official [Codex skill documentation](https://learn.chatgpt.com/docs/build-skills)
+and [Claude Code skill documentation](https://code.claude.com/docs/en/skills#control-who-invokes-a-skill).
 
 ## What it changes
 
@@ -62,10 +79,11 @@ Automatic discovery and explicit invocation depend on the host's settings.
 
 ## Included files
 
-- [SKILL.md](skills/agent-delegation/SKILL.md) — core workflow and authority boundaries.
-- [Task brief](skills/agent-delegation/references/task-brief.md) — adaptable worker brief.
-- [Execution reference](skills/agent-delegation/references/execution.md) — runtime selection, Git isolation, verification and recovery.
-- CLI adapters: [Codex](skills/agent-delegation/references/codex.md), [Claude Code](skills/agent-delegation/references/claude.md), [ZCode](skills/agent-delegation/references/zcode.md).
+- [SKILL.md](skills/cli-agents-delegations-skill/SKILL.md) — core workflow and authority boundaries.
+- [Codex invocation policy](skills/cli-agents-delegations-skill/agents/openai.yaml) — explicit invocation only.
+- [Task brief](skills/cli-agents-delegations-skill/references/task-brief.md) — adaptable worker brief.
+- [Execution reference](skills/cli-agents-delegations-skill/references/execution.md) — runtime selection, Git isolation, verification and recovery.
+- CLI adapters: [Codex](skills/cli-agents-delegations-skill/references/codex.md), [Claude Code](skills/cli-agents-delegations-skill/references/claude.md), [ZCode](skills/cli-agents-delegations-skill/references/zcode.md).
 
 Adapted from the author's CLI delegation protocol. Machine-specific paths,
 project frameworks, fixed model choices and dependency setup assumptions have

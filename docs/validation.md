@@ -1,14 +1,15 @@
 # Validation
 
-Checked on 2026-10-18 before publication.
+Checked on 2026-10-18. Version 0.2.0 renames the skill and makes invocation explicit-only.
 
 | Check | Result | Boundary |
 | --- | --- | --- |
-| Skill metadata and scaffold validator | Passed | Validates format, not model behavior |
-| `npx skills add ./ --list` | Discovers one skill, `agent-delegation` | Validates local package discovery |
+| YAML metadata, naming and invocation policy | Checked for the new name, Claude's `disable-model-invocation: true` and Codex's `allow_implicit_invocation: false` | Static configuration checks, not a live host invocation |
+| Bundled Codex scaffold validator | Version 0.1.0 passed; version 0.2.0 uses Claude's documented `disable-model-invocation` extension, which this validator's field allowlist rejects | The extension is intentional; the strict validator is not reported as passing |
+| `npx skills add ./ --list` | Discovers one skill, `cli-agents-delegations-skill` | Validates local package discovery |
 | Local Markdown links and private-path scan | Passed | No required private machine paths in the package |
-| Shell syntax and mock execution | Five snippets passed | No model-backed worker was launched |
-| Git workspace example | Created a worktree at the captured base in a disposable repository | No primary project checkout was changed |
+| Shell syntax and mock execution | Five snippets passed in version 0.1.0; recipes unchanged in version 0.2.0 | No model-backed worker was launched |
+| Git workspace example | Created a worktree at the captured base in a disposable repository in version 0.1.0; recipe unchanged | No primary project checkout was changed |
 
 The mock runs exercised new/resumed Codex launches, Claude print mode and the
 ZCode prompt adapter. They checked argument boundaries, working-directory
